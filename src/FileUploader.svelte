@@ -1,0 +1,45 @@
+<script lang='ts'>
+  export let onLoadFile: (file: File) => void;
+  // @ts-ignore
+  let disabled = !window.crossOriginIsolated || !window.FileReader || !window.File || typeof FFmpeg === 'undefined';
+
+  if (disabled) {
+    console.log('window.crossOriginIsolated', window.crossOriginIsolated)
+    console.log('window.FileReader', window.FileReader)
+    console.log('window.File', window.File)
+    // @ts-ignore
+    console.log('window.FFmpeg', typeof FFmpeg + '');
+  }
+
+	const onFileSelected = (event) => {
+    const file = event.target.files[0];
+    onLoadFile(file);
+    console.log('file', file)
+  }
+</script>
+
+<form>
+  <button type="button" class="fileUpload btn btn-primary" disabled={disabled}>
+    <label for="uploadBtn">Select an audio file to trim</label>
+    <input id="uploadBtn" type="file" class="upload" disabled={disabled} on:change={onFileSelected} />
+  </button>
+</form>
+
+<style lang="scss">
+  .fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+  }
+  .fileUpload input.upload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      // filter: alpha(opacity=0);
+  }
+</style>
