@@ -98,7 +98,7 @@
     />
   </label>
 
-  <button disabled={disabled || transcoding} type="submit">Clip!</button>
+  <button disabled={disabled || transcoding} type="submit">Get Clip!</button>
 </form>
 
 {#if transcoding}
