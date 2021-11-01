@@ -31,7 +31,7 @@
 
 <style>
   .formatted-time {
-    width: 6rem;
+    width: 6.5rem;
   }
   .icon-button {
     background: none;
