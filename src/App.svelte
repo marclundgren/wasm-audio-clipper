@@ -14,8 +14,6 @@
   let transcodedSrc: string;
   let currentTime: number = 0;
   let duration: number;
-
-  console.log("currentTime.toFixed(2)", currentTime.toFixed(2));
 </script>
 
 <svelte:head>
@@ -48,7 +46,6 @@
 
         {#if duration}
           <div class="space-between">
-            <!-- <span>{currentTime.toFixed(2)}</span> -->
             <CurrentTime currentTime={Number(currentTime.toFixed(2))} />
 
             <Controls
@@ -80,14 +77,15 @@
   }
 
   main {
-    text-align: center;
     padding: 1em;
-    max-width: 240px;
     margin: 0 auto;
     display: grid;
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    display: grid;
+    place-content: center;
+    /* @todo revisit these rules */
   }
 
   h1 {
@@ -100,11 +98,6 @@
   .container {
     display: grid;
     gap: 1rem;
-  }
-
-  .space-between {
-    display: flex;
-    justify-content: space-between;
   }
 
   @media (min-width: 640px) {
