@@ -23,6 +23,7 @@
 
 <main>
   <h1 class="title">{title}</h1>
+
   <Card animate={false}>
     <FileUploader
       onLoadFile={(file) => {
