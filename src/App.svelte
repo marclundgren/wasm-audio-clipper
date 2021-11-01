@@ -3,6 +3,7 @@
   import MediaPlayer from "./MediaPlayer.svelte";
   import Controls from "./Controls.svelte";
   import Download from "./Download.svelte";
+  import CurrentTime from "./CurrentTime.svelte";
   import Card from "./Card.svelte";
 
   export let title: string;
@@ -11,8 +12,10 @@
   let originalUrlBlob: string;
   let type: string;
   let transcodedSrc: string;
-  let currentTime: number;
+  let currentTime: number = 0;
   let duration: number;
+
+  console.log("currentTime.toFixed(2)", currentTime.toFixed(2));
 </script>
 
 <svelte:head>
@@ -44,8 +47,9 @@
         />
 
         {#if duration}
-          <div class="space-around">
-            <span>{currentTime.toFixed(2)}</span>
+          <div class="space-between">
+            <!-- <span>{currentTime.toFixed(2)}</span> -->
+            <CurrentTime currentTime={Number(currentTime.toFixed(2))} />
 
             <Controls
               disabled={!originalUrlBlob}
@@ -98,10 +102,9 @@
     gap: 1rem;
   }
 
-  .space-around {
+  .space-between {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
   @media (min-width: 640px) {

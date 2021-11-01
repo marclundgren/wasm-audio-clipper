@@ -5,6 +5,7 @@
   // const PATTERN = "\d{2}:\d{2}:\d{2}(\.?\d{1,3})?";
   // const pattern = /\d{2}:\d{2}:\d{2}(\.?\d{1,3})?/;
   const timeFormat = `\\d{2}:\\d{2}:\\d{2}(\\.?\\d{1,3})?`;
+                      // hours:minutes:seconds.milliseconds
 
   let start: string;
   let end: string;
@@ -121,8 +122,5 @@
   }
   input {
     width: 7.25rem;
-  }
-  button {
-    align-self: center;
   }
 </style>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="" />
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+
+    <video muted id="player" controls></video>
+    <input type="file" id="uploader" />
+    <button disabled id="download">Download</button>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
+    <script>
+      if (crossOriginIsolated) {
+        const { createFFmpeg, fetchFile } = FFmpeg;
+        const ffmpeg = createFFmpeg({
+          log: true,
+          corePath: "https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js",
+        });
+        const transcode = async (event) => {
+          const file = event.target.files
+          const { name } = files[0];
+          await ffmpeg.load();
+          ffmpeg.FS("writeFile", name, await fetchFile(files[0]));
+          await ffmpeg.run(
+            "-ss",
+            "00:19:57.500",
+            "-to",
+            "00:20:09.00",
+            "-i",
+            name,
+            `output.mp3`
+          );
+          console.log("name", name);
+          const data = ffmpeg.FS("readFile", "output.mp3");
+
+          const blob = new Blob([data], { type: "audio/mp3" });
+          const src = URL.createObjectURL(blob);
+          const video = document.getElementById("player");
+          video.src = src;
+          console.log("video.duration", video.duration);
+          const download = document.getElementById("download");
+          download.onclick = () => {
+            const a = document.createElement("a");
+            a.href = src;
+            a.download = "output.mp3";
+            a.click();
+          };
+          download.removeAttribute("disabled");
+        };
+        document
+          .getElementById("uploader")
+          .addEventListener("change", transcode);
+      } else {
+        document.getElementById("player").setAttribute("disabled", true);
+        document.getElementById("uploader").setAttribute("disabled", true);
+
+        document.write("cross origin isolated: false");
+      }
+    </script>
+    <script src="" async defer></script>
+  </body>
+</html>

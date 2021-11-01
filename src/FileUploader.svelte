@@ -1,27 +1,52 @@
-<script lang='ts'>
+<script lang="ts">
   export let onLoadFile: (file: File) => void;
-  // @ts-ignore
-  let disabled = !window.crossOriginIsolated || !window.FileReader || !window.File || typeof FFmpeg === 'undefined';
+  let disabled =
+    !window.crossOriginIsolated ||
+    !window.FileReader ||
+    !window.File ||
+    // @ts-ignore
+    typeof FFmpeg === "undefined";
 
   if (disabled) {
-    console.log('window.crossOriginIsolated', window.crossOriginIsolated)
-    console.log('window.FileReader', window.FileReader)
-    console.log('window.File', window.File)
+    console.log("window.crossOriginIsolated", window.crossOriginIsolated);
+    console.log("window.FileReader", window.FileReader);
+    console.log("window.File", window.File);
     // @ts-ignore
-    console.log('window.FFmpeg', typeof FFmpeg + '');
+    console.log("window.FFmpeg", typeof FFmpeg + "");
   }
 
-	const onFileSelected = (event) => {
+  const onFileSelected = (event) => {
     const file = event.target.files[0];
     onLoadFile(file);
-    console.log('file', file)
-  }
+    console.log("file", file);
+  };
+
+  const accept = [
+    "audio/3gpp",
+    "audio/aac",
+    "audio/flac",
+    "audio/mp3",
+    "audio/mp4",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/wav",
+    "audio/webm",
+    "audio/x-m4a",
+    // "audio/m4a",
+  ].join(",");
 </script>
 
 <form>
-  <button type="button" class="fileUpload btn btn-primary" disabled={disabled}>
+  <button type="button" class="fileUpload btn btn-primary" {disabled}>
     <label for="uploadBtn">Select an audio file to trim</label>
-    <input id="uploadBtn" type="file" class="upload" disabled={disabled} on:change={onFileSelected} />
+    <input
+      id="uploadBtn"
+      type="file"
+      class="upload"
+      {disabled}
+      {accept}
+      on:change={onFileSelected}
+    />
   </button>
 </form>
 
@@ -32,14 +57,14 @@
     margin: 10px;
   }
   .fileUpload input.upload {
-      position: absolute;
-      top: 0;
-      right: 0;
-      margin: 0;
-      padding: 0;
-      font-size: 20px;
-      cursor: pointer;
-      opacity: 0;
-      // filter: alpha(opacity=0);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    // filter: alpha(opacity=0);
   }
 </style>

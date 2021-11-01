@@ -3,6 +3,8 @@
   export let type: string;
   export let duration: number = 0;
   export let currentTime: number = 0;
+
+  // @TODO set the volume to 50%
 </script>
 
 <audio controls bind:currentTime bind:duration src={src} type={type} />
