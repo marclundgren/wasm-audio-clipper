@@ -50,6 +50,10 @@
   </button>
 </form>
 
+{#if disabled}
+  <p class="centered">This browser is not supported&hellip;</p>
+{/if}
+
 <style lang="scss">
   form {
     display: grid;
@@ -69,5 +73,9 @@
     cursor: pointer;
     opacity: 0;
     // filter: alpha(opacity=0);
+  }
+  .centered {
+    display: grid;
+    place-content: center;
   }
 </style>

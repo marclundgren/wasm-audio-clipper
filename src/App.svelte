@@ -22,7 +22,7 @@
 </svelte:head>
 
 <main>
-  <h1>{title}</h1>
+  <h1 class="title">{title}</h1>
   <Card animate={false}>
     <FileUploader
       onLoadFile={(file) => {
@@ -88,11 +88,12 @@
     /* @todo revisit these rules */
   }
 
-  h1 {
+  .title {
     color: #ff3e00;
     text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
+    text-align: center;
   }
 
   .container {
