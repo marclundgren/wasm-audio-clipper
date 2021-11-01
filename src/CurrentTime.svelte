@@ -24,7 +24,11 @@
 <div class="container">
   <span class="formatted-time">{formattedTime}</span>
 
-  <button type="button" class="icon-button copy-button">
+  <button
+    type="button"
+    class="icon-button copy-button"
+    data-clipboard-target=".formatted-time"
+  >
     <CopyIcon />
   </button>
 </div>
