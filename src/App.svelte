@@ -11,11 +11,6 @@
   let originalUrlBlob: string;
   let type: string;
   let transcodedSrc: string;
-
-  function onTranscode(src) {
-    transcodedSrc = src;
-  }
-
   let currentTime: number;
   let duration: number;
 </script>
@@ -49,14 +44,16 @@
         />
 
         {#if duration}
-          <p>{currentTime}</p>
+          <div class="space-around">
+            <span>{currentTime.toFixed(2)}</span>
 
-          <Controls
-            disabled={!originalUrlBlob}
-            file={originalFile}
-            {duration}
-            bind:transcodedSrc
-          />
+            <Controls
+              disabled={!originalUrlBlob}
+              file={originalFile}
+              {duration}
+              bind:transcodedSrc
+            />
+          </div>
         {/if}
       </div>
     </Card>
@@ -99,6 +96,12 @@
   .container {
     display: grid;
     gap: 1rem;
+  }
+
+  .space-around {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 
   @media (min-width: 640px) {
