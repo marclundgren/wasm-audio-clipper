@@ -51,6 +51,9 @@
 </form>
 
 <style lang="scss">
+  form {
+    display: grid;
+  }
   .fileUpload {
     position: relative;
     overflow: hidden;

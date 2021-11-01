@@ -15,12 +15,14 @@
     background: white;
     border-radius: 3px;
     box-shadow: 0 1px 2px #aaa;
-    display: inline-block;
-    margin: 0 1rem 1rem;
-    max-width: 448px;
+    /* display: inline-block; */
+    /* margin: 0 1rem 1rem; */
+    /* max-width: 448px; */
     padding: 1.5rem;
     position: relative;
     z-index: 2;
+    display: grid;
+    place-content: stretch;
   }
 
   .card .title {
