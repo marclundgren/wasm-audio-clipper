@@ -3,6 +3,8 @@
   import { Duration } from "luxon";
   // import ClipboardJS from "clipboard";
   // import CopyIcon from "./CopyIcon.svelte";
+  import ForwardsIcon from "./ForwardsIcon.svelte";
+  import BackwardsIcon from "./BackwardsIcon.svelte";
 
   export let currentTime: number = 0;
 
@@ -23,6 +25,19 @@
 
 <div class="container">
   <span class="formatted-time">{formattedTime}</span>
+
+  <!-- <button
+    type="button"
+    class="icon-button"
+  >
+    <BackwardsIcon />
+  </button>
+  <button
+    type="button"
+    class="icon-button"
+  >
+    <ForwardsIcon />
+  </button> -->
 
   <!-- <button
     type="button"
