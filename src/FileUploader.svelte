@@ -17,8 +17,11 @@
 
   const onFileSelected = (event) => {
     const file = event.target.files[0];
-    onLoadFile(file);
-    console.log("file", file);
+
+    if (file) {
+      onLoadFile(file);
+      console.log("file", file);
+    }
   };
 
   const accept = [
@@ -32,7 +35,6 @@
     "audio/wav",
     "audio/webm",
     "audio/x-m4a",
-    // "audio/m4a",
   ].join(",");
 </script>
 
