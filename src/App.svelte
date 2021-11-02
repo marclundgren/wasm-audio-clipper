@@ -11,7 +11,7 @@
   let originalFile: File;
   let originalUrlBlob: string;
   let type: string;
-  let transcodedSrc: string;
+  let transcodedSrc: string = "";
   let currentTime: number = 0;
   let duration: number;
 </script>
@@ -30,7 +30,7 @@
         originalFile = file;
         originalUrlBlob = URL.createObjectURL(file);
         type = file.type;
-        console.log(file);
+        transcodedSrc = "";
       }}
     />
   </Card>

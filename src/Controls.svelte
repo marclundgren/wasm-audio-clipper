@@ -2,19 +2,13 @@
   import moment from "moment";
   import Transcoder from "./Transcoder.svelte";
 
-  // const PATTERN = "\d{2}:\d{2}:\d{2}(\.?\d{1,3})?";
-  // const pattern = /\d{2}:\d{2}:\d{2}(\.?\d{1,3})?/;
   const timeFormat = `\\d{2}:\\d{2}:\\d{2}(\\.?\\d{1,3})?`;
   // hours:minutes:seconds.milliseconds
 
-  let start: string;
-  let end: string;
-
-  // export let timeFormat: string;
   export let file: File;
   export let disabled = false;
   export let duration: number;
-  export let onTranscode: (src: string) => void = () => {}; // todo remove
+  export let onTranscode: (src: string) => void = () => {};
   export let transcodedSrc: string;
 
   console.log("file", file);
@@ -46,6 +40,9 @@
   }
 
   let transcoding = false;
+
+  let start: string = "00:00:00.000";
+  let end: string = endPlaceholder;
 
   function _onTranscode(src) {
     console.log("transcoded src", src);
@@ -83,7 +80,6 @@
       pattern={timeFormat}
       minlength="8"
       maxlength="12"
-      placeholder="00:00:00.000"
       type="text"
       bind:value={start}
     />
@@ -96,7 +92,6 @@
       pattern={timeFormat}
       minlength="8"
       maxlength="12"
-      placeholder={endPlaceholder}
       type="text"
       bind:value={end}
     />
