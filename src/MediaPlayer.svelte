@@ -11,6 +11,9 @@
   onMount(() => {
     if (audioEl) {
       audioEl.volume = initialVolume;
+
+      // @ts-ignore
+      audioEl.controlsList = "nodownload";
     }
   });
 </script>
