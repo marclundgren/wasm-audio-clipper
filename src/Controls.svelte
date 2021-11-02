@@ -9,6 +9,7 @@
   export let disabled = false;
   export let duration: number;
   export let onTranscode: (src: string) => void = () => {};
+  export let transcoding = false;
   export let transcodedSrc: string;
 
   console.log("file", file);
@@ -38,8 +39,6 @@
       endPlaceholder += `.${milliseconds}`;
     }
   }
-
-  let transcoding = false;
 
   let start: string = "00:00:00.000";
   let end: string = endPlaceholder;

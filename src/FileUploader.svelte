@@ -1,6 +1,8 @@
 <script lang="ts">
   export let onLoadFile: (file: File) => void;
-  let disabled =
+  export let disabled = false;
+
+  let notCompatible =
     !window.crossOriginIsolated ||
     !window.FileReader ||
     !window.File ||
@@ -39,7 +41,11 @@
 </script>
 
 <form>
-  <button type="button" class="fileUpload btn btn-primary" {disabled}>
+  <button
+    type="button"
+    class="fileUpload btn btn-primary"
+    disabled={disabled || notCompatible}
+  >
     <label for="uploadBtn">Select an audio file to trim</label>
     <input
       id="uploadBtn"
@@ -52,7 +58,7 @@
   </button>
 </form>
 
-{#if disabled}
+{#if notCompatible}
   <p class="centered">This browser is not supported&hellip;</p>
 {/if}
 

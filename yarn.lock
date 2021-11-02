@@ -2135,6 +2135,11 @@ sirv@^1.0.13:
     mime "^2.3.1"
     totalist "^1.0.0"
 
+skeleton-elements@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/skeleton-elements/-/skeleton-elements-4.0.0.tgz#44bbe97ac957b52f9778165c2548e44140357bf0"
+  integrity sha512-ctu/bKsWvq1stmvaNDsaZI+tnttgHfTf1FJq7ZLL0N/g9SDTf1ulOIr/fTIbWSUrpqmC2BbKPDyd1h8JmGfV/Q==
+
 sorcery@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/sorcery/-/sorcery-0.10.0.tgz#8ae90ad7d7cb05fc59f1ab0c637845d5c15a52b7"
