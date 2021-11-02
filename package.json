@@ -42,6 +42,7 @@
     "luxon": "^2.0.2",
     "moment": "^2.29.1",
     "sass": "^1.43.3",
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "skeleton-elements": "^4.0.0"
   }
 }

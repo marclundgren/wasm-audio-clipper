@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { SkeletonBlock } from "skeleton-elements/svelte";
   import FileUploader from "./FileUploader.svelte";
   import MediaPlayer from "./MediaPlayer.svelte";
   import Controls from "./Controls.svelte";
@@ -11,6 +12,7 @@
   let originalFile: File;
   let originalUrlBlob: string;
   let type: string;
+  let transcoding = false;
   let transcodedSrc: string = "";
   let currentTime: number = 0;
   let duration: number;
@@ -26,6 +28,7 @@
 
   <Card animate={false}>
     <FileUploader
+      disabled={transcoding}
       onLoadFile={(file) => {
         originalFile = file;
         originalUrlBlob = URL.createObjectURL(file);
@@ -53,6 +56,7 @@
               disabled={!originalUrlBlob}
               file={originalFile}
               {duration}
+              bind:transcoding
               bind:transcodedSrc
             />
           </div>
@@ -61,12 +65,19 @@
     </Card>
   {/if}
 
-  {#if transcodedSrc}
+  {#if (transcoding && !transcodedSrc) || transcodedSrc}
     <Card>
-      <div class="container">
-        <MediaPlayer {type} src={transcodedSrc} />
-        <Download src={transcodedSrc} />
-      </div>
+      {#if transcoding && !transcodedSrc}
+        <SkeletonBlock tag="p" width="100%" effect="fade" />
+        <SkeletonBlock tag="p" width="100%" effect="fade" />
+      {/if}
+
+      {#if transcodedSrc}
+        <div class="container">
+          <MediaPlayer {type} src={transcodedSrc} />
+          <Download src={transcodedSrc} />
+        </div>
+      {/if}
     </Card>
   {/if}
 </main>
