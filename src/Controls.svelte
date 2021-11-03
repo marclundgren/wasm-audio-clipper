@@ -48,26 +48,6 @@
   let end: string =
     localStorage.getItem(encodeURI(`WAC_end_${file.name}`)) || endPlaceholder;
 
-  /*
-  onMount(() => {
-    if (file) {
-      const storedStart = localStorage.getItem(
-        encodeURI(`WAC_start_${file.name}`)
-      );
-
-      if (storedStart) {
-        start = storedStart;
-      }
-
-      const storedEnd = localStorage.getItem(encodeURI(`WAC_end_${file.name}`));
-
-      if (storedEnd) {
-        end = storedEnd;
-      }
-    }
-  });
-  */
-
   function _onTranscode(src) {
     console.log("transcoded src", src);
     transcoding = false;
@@ -75,14 +55,7 @@
 
     transcoding = false;
   }
-  function _onLoadFail(err) {
-    console.error("load fail", err);
-    transcoding = false;
-  }
-  function _onFetchFileFail(err) {
-    console.error("fetch file fail", err);
-    transcoding = false;
-  }
+
   function _onTranscodeFail(err) {
     console.error("transcode fail", err);
     transcoding = false;
@@ -144,8 +117,6 @@
 
 {#if transcoding}
   <Transcoder
-    onLoadFail={_onLoadFail}
-    onFetchFileFail={_onFetchFileFail}
     onTranscodeFail={_onTranscodeFail}
     onTranscode={_onTranscode}
     {file}

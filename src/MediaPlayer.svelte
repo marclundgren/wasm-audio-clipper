@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+
   export let src: string;
   export let type: string;
   export let duration: number = 0;

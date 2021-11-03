@@ -1,5 +1,4 @@
 <script lang="ts">
-  /* global FFmpeg */
   import { onMount } from "svelte";
   import { SkeletonBlock } from "skeleton-elements/svelte";
   import FileUploader from "./FileUploader.svelte";
@@ -20,14 +19,17 @@
   let duration: number;
   let ffmpeg: any; // @todo, i dont know what the signature is
   let fetchedFile: any; // @todo, i dont know what the signature is
-
-  // @ts-ignore
-  const FFmpeg = window.FFmpeg;
+  let fetchingFile: boolean = false;
 
   onMount(async () => {
-    if (!FFmpeg) {
-      // throw new Error("FFmpeg is not defined");
-      // debugger;
+    // @ts-ignore
+    const FFmpeg = window.FFmpeg;
+
+    if (typeof FFmpeg === "undefined") {
+      console.error("FFmpeg is not defined");
+      return;
+    } else {
+      console.log("typeof FFmpeg", typeof FFmpeg);
     }
 
     if (!ffmpeg) {
@@ -35,26 +37,11 @@
         // corePath: "/ffmpeg/ffmpeg-core.js"
         // log: true,
       });
-      console.log("new ffmpeg singleton", ffmpeg);
     }
 
     if (!ffmpeg.isLoaded()) {
-      // await ffmpeg.load().catch(onLoadFail);
       await ffmpeg.load();
-      console.log("ffmpeg is loaded");
     }
-
-    // if (file && start && end && ffmpeg) {
-    //   transcode(file, start, end, ffmpeg)
-    //     .catch(onTranscodeFail)
-    //     .then(onTranscode);
-    // }
-
-    // console.log(
-    //   "memory stats",
-    //   performance.memory.usedJSHeapSize,
-    //   performance.memory.usedJSHeapSize / performance.memory.totalJSHeapSize
-    // );
   });
 </script>
 
@@ -68,16 +55,17 @@
 
   <Card animate={false}>
     <FileUploader
-      disabled={transcoding}
+      disabled={transcoding || fetchingFile}
       onLoadFile={async (file) => {
         originalFile = file;
         originalUrlBlob = URL.createObjectURL(file);
         type = file.type;
         transcodedSrc = "";
 
+        fetchingFile = true;
         // @ts-ignore
         fetchedFile = await window.FFmpeg.fetchFile(file);
-        // fetchedFile = await window.FFmpeg.fetchFile(file).catch(onFetchFileFail);
+        fetchingFile = false;
       }}
     />
   </Card>
@@ -114,8 +102,18 @@
   {#if (transcoding && !transcodedSrc) || transcodedSrc}
     <Card>
       {#if transcoding && !transcodedSrc}
-        <SkeletonBlock tag="p" width="100%" effect="fade" />
-        <SkeletonBlock tag="p" width="100%" effect="fade" />
+        <SkeletonBlock
+          height={undefined}
+          borderRadius={undefined}
+          width="100%"
+          effect="fade"
+        />
+        <SkeletonBlock
+          height={undefined}
+          borderRadius={undefined}
+          width="100%"
+          effect="fade"
+        />
       {/if}
 
       {#if transcodedSrc}
