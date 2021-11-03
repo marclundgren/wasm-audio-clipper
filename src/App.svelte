@@ -1,4 +1,6 @@
 <script lang="ts">
+  /* global FFmpeg */
+  import { onMount } from "svelte";
   import { SkeletonBlock } from "skeleton-elements/svelte";
   import FileUploader from "./FileUploader.svelte";
   import MediaPlayer from "./MediaPlayer.svelte";
@@ -16,6 +18,44 @@
   let transcodedSrc: string = "";
   let currentTime: number = 0;
   let duration: number;
+  let ffmpeg: any; // @todo, i dont know what the signature is
+  let fetchedFile: any; // @todo, i dont know what the signature is
+
+  // @ts-ignore
+  const FFmpeg = window.FFmpeg;
+
+  onMount(async () => {
+    if (!FFmpeg) {
+      // throw new Error("FFmpeg is not defined");
+      // debugger;
+    }
+
+    if (!ffmpeg) {
+      ffmpeg = FFmpeg.createFFmpeg({
+        // corePath: "/ffmpeg/ffmpeg-core.js"
+        // log: true,
+      });
+      console.log("new ffmpeg singleton", ffmpeg);
+    }
+
+    if (!ffmpeg.isLoaded()) {
+      // await ffmpeg.load().catch(onLoadFail);
+      await ffmpeg.load();
+      console.log("ffmpeg is loaded");
+    }
+
+    // if (file && start && end && ffmpeg) {
+    //   transcode(file, start, end, ffmpeg)
+    //     .catch(onTranscodeFail)
+    //     .then(onTranscode);
+    // }
+
+    // console.log(
+    //   "memory stats",
+    //   performance.memory.usedJSHeapSize,
+    //   performance.memory.usedJSHeapSize / performance.memory.totalJSHeapSize
+    // );
+  });
 </script>
 
 <svelte:head>
@@ -29,11 +69,15 @@
   <Card animate={false}>
     <FileUploader
       disabled={transcoding}
-      onLoadFile={(file) => {
+      onLoadFile={async (file) => {
         originalFile = file;
         originalUrlBlob = URL.createObjectURL(file);
         type = file.type;
         transcodedSrc = "";
+
+        // @ts-ignore
+        fetchedFile = await window.FFmpeg.fetchFile(file);
+        // fetchedFile = await window.FFmpeg.fetchFile(file).catch(onFetchFileFail);
       }}
     />
   </Card>
@@ -58,6 +102,8 @@
               {duration}
               bind:transcoding
               bind:transcodedSrc
+              bind:ffmpeg
+              bind:fetchedFile
             />
           </div>
         {/if}

@@ -37,6 +37,7 @@
     "audio/wav",
     "audio/webm",
     "audio/x-m4a",
+    "video/avi",
   ].join(",");
 </script>
 

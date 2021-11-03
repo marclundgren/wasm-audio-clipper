@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import moment from "moment";
   import Transcoder from "./Transcoder.svelte";
 
@@ -11,6 +12,8 @@
   export let onTranscode: (src: string) => void = () => {};
   export let transcoding = false;
   export let transcodedSrc: string;
+  export let ffmpeg: any; // @todo figure out the type
+  export let fetchedFile: any; // @todo figure out the type
 
   console.log("file", file);
   console.log("duration", duration);
@@ -40,8 +43,30 @@
     }
   }
 
-  let start: string = "00:00:00.000";
-  let end: string = endPlaceholder;
+  let start: string =
+    localStorage.getItem(encodeURI(`WAC_start_${file.name}`)) || "00:00:00.000";
+  let end: string =
+    localStorage.getItem(encodeURI(`WAC_end_${file.name}`)) || endPlaceholder;
+
+  /*
+  onMount(() => {
+    if (file) {
+      const storedStart = localStorage.getItem(
+        encodeURI(`WAC_start_${file.name}`)
+      );
+
+      if (storedStart) {
+        start = storedStart;
+      }
+
+      const storedEnd = localStorage.getItem(encodeURI(`WAC_end_${file.name}`));
+
+      if (storedEnd) {
+        end = storedEnd;
+      }
+    }
+  });
+  */
 
   function _onTranscode(src) {
     console.log("transcoded src", src);
@@ -81,6 +106,15 @@
       maxlength="12"
       type="text"
       bind:value={start}
+      on:input={(event) => {
+        if (file && file.name) {
+          localStorage.setItem(
+            encodeURI(`WAC_start_${file.name}`),
+            // @ts-ignore
+            event.target.value
+          );
+        }
+      }}
     />
   </label>
   <label>
@@ -93,6 +127,15 @@
       maxlength="12"
       type="text"
       bind:value={end}
+      on:input={(event) => {
+        if (file && file.name) {
+          localStorage.setItem(
+            encodeURI(`WAC_end_${file.name}`),
+            // @ts-ignore
+            event.target.value
+          );
+        }
+      }}
     />
   </label>
 
@@ -109,6 +152,8 @@
     {start}
     {end}
     bind:src={transcodedSrc}
+    bind:ffmpeg
+    bind:fetchedFile
   />
 {/if}
 
