@@ -9,9 +9,9 @@ import css from "rollup-plugin-css-only";
 // import nodeResolve from "@rollup/plugin-node-resolve";
 import wasm from "@rollup/plugin-wasm";
 // import virtual from "@rollup/plugin-virtual";
-import inject from "@rollup/plugin-inject";
+// import inject from "@rollup/plugin-inject";
 // import prettierSvelte from "prettier-plugin-svelte";
-import path from "path";
+// import path from "path";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -49,6 +49,12 @@ export default {
     file: "public/build/bundle.js",
   },
   plugins: [
+    // inject({
+    //   // use a local module instead of a third-party one
+    //   // 'Object.assign': path.resolve( 'src/helpers/object-assign.js' ),
+    //   FFmpeg: path.resolve("node_modules/@ffmpeg/ffmpeg/dist/ffmpeg.min.js"),
+    //   // FFmpegwasm: path.resolve("node_modules/@ffmpeg/ffmpeg/dist/"),
+    // }),
     // json(),
     wasm(),
     // virtual({
@@ -81,12 +87,6 @@ export default {
       inlineSources: !production,
     }),
 
-    inject({
-      // use a local module instead of a third-party one
-      // 'Object.assign': path.resolve( 'src/helpers/object-assign.js' ),
-      FFmpeg: path.resolve("node_modules/@ffmpeg/ffmpeg/dist/ffmpeg.min.js"),
-      // FFmpegwasm: path.resolve("node_modules/@ffmpeg/ffmpeg/dist/"),
-    }),
     // prettierSvelte(),
 
     // In dev mode, call `npm run start` once

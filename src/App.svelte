@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { SkeletonBlock } from "skeleton-elements/svelte";
   import FileUploader from "./FileUploader.svelte";
   import MediaPlayer from "./MediaPlayer.svelte";
@@ -16,6 +17,32 @@
   let transcodedSrc: string = "";
   let currentTime: number = 0;
   let duration: number;
+  let ffmpeg: any; // @todo, i dont know what the signature is
+  let fetchedFile: any; // @todo, i dont know what the signature is
+  let fetchingFile: boolean = false;
+
+  onMount(async () => {
+    // @ts-ignore
+    const FFmpeg = window.FFmpeg;
+
+    if (typeof FFmpeg === "undefined") {
+      console.error("FFmpeg is not defined");
+      return;
+    } else {
+      console.log("typeof FFmpeg", typeof FFmpeg);
+    }
+
+    if (!ffmpeg) {
+      ffmpeg = FFmpeg.createFFmpeg({
+        // corePath: "/ffmpeg/ffmpeg-core.js"
+        // log: true,
+      });
+    }
+
+    if (!ffmpeg.isLoaded()) {
+      await ffmpeg.load();
+    }
+  });
 </script>
 
 <svelte:head>
@@ -28,12 +55,17 @@
 
   <Card animate={false}>
     <FileUploader
-      disabled={transcoding}
-      onLoadFile={(file) => {
+      disabled={transcoding || fetchingFile}
+      onLoadFile={async (file) => {
         originalFile = file;
         originalUrlBlob = URL.createObjectURL(file);
         type = file.type;
         transcodedSrc = "";
+
+        fetchingFile = true;
+        // @ts-ignore
+        fetchedFile = await window.FFmpeg.fetchFile(file);
+        fetchingFile = false;
       }}
     />
   </Card>
@@ -58,6 +90,8 @@
               {duration}
               bind:transcoding
               bind:transcodedSrc
+              bind:ffmpeg
+              bind:fetchedFile
             />
           </div>
         {/if}
@@ -68,8 +102,18 @@
   {#if (transcoding && !transcodedSrc) || transcodedSrc}
     <Card>
       {#if transcoding && !transcodedSrc}
-        <SkeletonBlock tag="p" width="100%" effect="fade" />
-        <SkeletonBlock tag="p" width="100%" effect="fade" />
+        <SkeletonBlock
+          height={undefined}
+          borderRadius={undefined}
+          width="100%"
+          effect="fade"
+        />
+        <SkeletonBlock
+          height={undefined}
+          borderRadius={undefined}
+          width="100%"
+          effect="fade"
+        />
       {/if}
 
       {#if transcodedSrc}
